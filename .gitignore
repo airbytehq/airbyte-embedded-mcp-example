@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.manifest
+*.spec
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Jupyter and IPython
+.ipynb_checkpoints
+
+# VS Code
+.vscode/
+
+# Environment files
+.env
+
+
+# Streamlit
+.streamlit/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Others
+*.sqlite3
+*.db
+*.bak
+*.tmp
+*.swp
+*.swo
+
+# Node
+node_modules/
