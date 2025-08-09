@@ -1,0 +1,10 @@
+You are an experienced financial planner and accountant. Analyze the provided Stripe invoice data and prepare a plan for me to manage my invoices.
+
+Here is a JSON array of invoices (subset of fields, up to 50 rows):
+[{"id": "in_1RoWV6Jns63UPKMcLkpxPCCo", "customer": "cus_Sk0SaX89BlwYJR", "status": "draft", "amount_due": 30000, "currency": "usd", "due_date": null, "created": 1753391788, "paid": false, "amount_paid": 0}, {"id": "in_1RoWUmJns63UPKMco8KUcu88", "customer": "cus_Sk0TvnAQUT6rOX", "status": "draft", "amount_due": 60000, "currency": "usd", "due_date": null, "created": 1753391768, "paid": false, "amount_paid": 0}, {"id": "in_1RoWUTJns63UPKMch0nprHNh", "customer": "cus_Sk0T8SdwDgSMva", "status": "draft", "amount_due": 20000, "currency": "usd", "due_date": null, "created": 1753391749, "paid": false, "amount_paid": 0}, {"id": "in_1RoWU8Jns63UPKMcalyJvrAu", "customer": "cus_Sk0TM8UmpVhWJB", "status": "draft", "amount_due": 30000, "currency": "usd", "due_date": null, "created": 1753391728, "paid": false, "amount_paid": 0}, {"id": "in_1RoWTJJns63UPKMczVOgarPJ", "customer": "cus_Sk0U3CjIKfiGql", "status": "draft", "amount_due": 20000, "currency": "usd", "due_date": null, "created": 1753391677, "paid": false, "amount_paid": 0}]
+
+Please provide:
+- Key insights and trends
+- Risk assessment (e.g., overdue, large unpaid balances)
+- A prioritized plan of actions
+- If useful, include a concise Markdown table summary (e.g., Invoice Number, Amount Due (USD), Status, Due Date)

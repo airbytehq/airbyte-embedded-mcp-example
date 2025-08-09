@@ -7,6 +7,7 @@ import pandas as pd
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
+MODEL_NAME = "gpt-5"
 
 st.title("Embedded MCP Demo: Stripe Invoice Planner")
 
@@ -29,9 +30,11 @@ if st.button("Fetch & Analyze Invoices"):
             "Then, analyze the results and prepare a plan for me to manage my invoices."
     )
 
-    with st.spinner("Requesting OpenAI MCP..."):
+    import time
+    with st.spinner("Fetching customer data via Airbyte Embedded and asking GPT to analyze it..."):
+        start_time = time.time()
         resp = openai.responses.create(
-            model="gpt-5",
+            model=MODEL_NAME,
             tools=[
                 {
                     "type": "mcp",
@@ -45,7 +48,8 @@ if st.button("Fetch & Analyze Invoices"):
             ],
             input=prompt,
         )
-
+        duration = time.time() - start_time
+    st.success(f"Request completed in {duration:.2f} seconds.")
     # Show assistant analysis (summary)
     analysis = None
     if hasattr(resp, 'output') and resp.output:
