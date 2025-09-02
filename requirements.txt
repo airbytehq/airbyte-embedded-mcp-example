@@ -1,5 +1,0 @@
-openai
-requests
-python-dotenv
-streamlit
-pandas
