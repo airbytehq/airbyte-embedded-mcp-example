@@ -18,7 +18,6 @@ MODEL_NAME = "gpt-4.1"
 
 # Constants for Airbyte Sonar API
 AIRBYTE_SONAR_BASE_URL = "https://api.airbyte.ai"
-AIRBYTE_SOURCE_ID = "9def5920-d4eb-41c7-aacd-0369800e4817"
 
 # Precompiled regex for parsing Markdown tables from model analysis
 MARKDOWN_TABLE_RE = re.compile(r"(\|.+\|\n)+")
@@ -98,10 +97,9 @@ def setup_authentication() -> str:
     """
     client_id = os.getenv("AIRBYTE_CLIENT_ID")
     client_secret = os.getenv("AIRBYTE_CLIENT_SECRET")
-    workspace_id = os.getenv("AIRBYTE_WORKSPACE_ID")
 
     token_manager = get_token_manager()
-    token_manager.configure(client_id, client_secret, workspace_id)
+    token_manager.configure(client_id, client_secret)
     token_manager.invalidate_token()
     bearer_token = token_manager.get_token()
 
@@ -109,7 +107,7 @@ def setup_authentication() -> str:
     return bearer_token
 
 
-def fetch_invoices_via_airbyte(bearer_token: str) -> List[Dict[str, Any]]:
+def fetch_invoices_via_airbyte(bearer_token: str, source_id: str) -> List[Dict[str, Any]]:
     """
     Fetch invoice data through Airbyte Sonar API proxy.
     """
@@ -117,7 +115,7 @@ def fetch_invoices_via_airbyte(bearer_token: str) -> List[Dict[str, Any]]:
 
     fetch_start = time.time()
     invoices = fetch_invoices_via_airbyte_sonar(
-        bearer_token, AIRBYTE_SOURCE_ID, stripe_url
+        bearer_token, source_id, stripe_url
     )
     fetch_duration = time.time() - fetch_start
 
@@ -268,7 +266,11 @@ if st.button("Fetch & Analyze Invoices"):
     bearer_token = setup_authentication()
 
     # 2. Fetch Invoices via Airbyte
-    invoices = fetch_invoices_via_airbyte(bearer_token)
+    source_id = os.getenv("AIRBYTE_SOURCE_ID")
+    if not source_id:
+        st.error("AIRBYTE_SOURCE_ID environment variable is required")
+        st.stop()
+    invoices = fetch_invoices_via_airbyte(bearer_token, source_id)
 
     # 3. Build Analysis Prompt
     prompt = build_analysis_prompt(invoices)
