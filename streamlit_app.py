@@ -1,16 +1,17 @@
-import os
-from pathlib import Path
 import json
-import time
+import os
 import re
+import time
+from pathlib import Path
 from typing import Any, Dict, List
 
-import requests
-import streamlit as st
-from token_manager import get_token_manager
-from dotenv import load_dotenv
 import openai
 import pandas as pd
+import requests
+import streamlit as st
+from dotenv import load_dotenv
+
+from token_manager import get_token_manager
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -32,11 +33,13 @@ def fetch_invoices_via_airbyte_sonar(
     Body: {"method":"GET","url":"https://api.stripe.com/v1/invoices"}
     Returns a list of invoice dicts (stripe-style "data" array) or [] on failure.
     """
+    organization_id = os.getenv("AIRBYTE_ORGANIZATION_ID")
     endpoint = f"{AIRBYTE_SONAR_BASE_URL}/api/v1/sonar/apis/{source_id}/request"
     headers = {
         "Authorization": f"Bearer {bearer_token}",
         "Accept": "application/json",
         "Content-Type": "application/json",
+        "X-Organization-Id": organization_id,
     }
     body = {
         "method": "GET",
@@ -258,7 +261,7 @@ def simplify_invoices(
     return slim
 
 
-st.title("Embedded MCP Demo Test 2: Stripe Invoice Planner")
+st.title("Embedded MCP Demo: Stripe Invoice Planner")
 st.text(f"Currently using *{MODEL_NAME}* for analysis.")
 
 if st.button("Fetch & Analyze Invoices"):
